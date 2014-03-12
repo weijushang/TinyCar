@@ -1,0 +1,139 @@
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!--用户信息表mapper 对应表：user_info-->
+<sqlMap namespace="com.car.domain.UserInfo">
+
+	<!-- Use type aliases to avoid typing the full classname every time. -->
+	<typeAlias alias="userInfo" type="com.car.domain.UserInfo" />
+	
+	<resultMap id="userInfoMap" class="com.car.domain.UserInfo">
+		<result column="user_id" jdbcType="number" property="user_id"/>
+		<result column="login_name" jdbcType="VARCHAR" property="login_name"/>
+		<result column="user_name" jdbcType="VARCHAR" property="user_name"/>
+		<result column="user_email" jdbcType="VARCHAR" property="user_email"/>
+		<result column="user_phone" jdbcType="VARCHAR" property="user_phone"/>
+		<result column="user_post" jdbcType="VARCHAR" property="user_post"/>
+		<result column="user_address" jdbcType="VARCHAR" property="user_address"/>
+		<result column="user_remark" jdbcType="VARCHAR" property="user_remark"/>
+		<result column="create_time" jdbcType="VARCHAR" property="create_time"/>
+		<result column="update_time" jdbcType="VARCHAR" property="update_time"/>
+		<result column="last_time" jdbcType="VARCHAR" property="last_time"/>
+		<result column="last_ip" jdbcType="VARCHAR" property="last_ip"/>
+	</resultMap>
+	<sql id="userInfo_Column_List">
+		user_id, login_name, user_name, user_email, user_phone, user_post, 
+		user_address, user_remark, create_time, update_time, last_time, last_ip
+	</sql>
+	<sql id="userInfoCondition">
+        <dynamic prepend="where">
+            <isNotEmpty prepend="and" property="user_id">
+               user_id  = #user_id#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="login_name">
+               login_name  = #login_name#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="login_pwd">
+               login_pwd = #login_pwd#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="user_name">
+            	user_name like '%$user_name$%'
+            </isNotEmpty>
+        </dynamic>        
+    </sql>
+	<!-- 插入数据 -->
+	<insert id="insertSelective" parameterClass="userInfo">
+		insert into user_info
+		<dynamic prepend="(" >
+	      <isNotNull prepend="," property="user_id" > user_id </isNotNull>
+	      <isNotNull prepend="," property="login_name" > login_name </isNotNull>
+	      <isNotNull prepend="," property="login_pwd" > login_pwd </isNotNull>
+	      <isNotNull prepend="," property="user_name" > user_name </isNotNull>
+	      <isNotNull prepend="," property="user_email" > user_email </isNotNull>
+	      <isNotNull prepend="," property="user_phone" > user_phone </isNotNull>
+	      <isNotNull prepend="," property="user_post" > user_post </isNotNull>
+	      <isNotNull prepend="," property="user_address" > user_address </isNotNull>
+	      <isNotNull prepend="," property="user_remark" > user_remark </isNotNull>
+	      <isNotNull prepend="," property="create_time" > create_time </isNotNull>
+	      <isNotNull prepend="," property="update_time" > update_time </isNotNull>
+	      <isNotNull prepend="," property="last_time" > last_time </isNotNull>
+	      <isNotNull prepend="," property="last_ip" > last_ip </isNotNull>
+	      )
+	    </dynamic>
+		values
+		<dynamic prepend="(" >
+	      <isNotNull prepend="," property="user_id" > #user_id# </isNotNull>
+	      <isNotNull prepend="," property="login_name" > #login_name# </isNotNull>
+	      <isNotNull prepend="," property="login_pwd" > #login_pwd# </isNotNull>
+	      <isNotNull prepend="," property="user_name" > #user_name# </isNotNull>
+	      <isNotNull prepend="," property="user_email" > #user_email# </isNotNull>
+	      <isNotNull prepend="," property="user_phone" > #user_phone# </isNotNull>
+	      <isNotNull prepend="," property="user_post" > #user_post# </isNotNull>
+	      <isNotNull prepend="," property="user_address" > #user_address# </isNotNull>
+	      <isNotNull prepend="," property="user_remark" > #user_remark# </isNotNull>
+	      <isNotNull prepend="," property="create_time" > #create_time# </isNotNull>
+	      <isNotNull prepend="," property="update_time" > #update_time# </isNotNull>
+	      <isNotNull prepend="," property="last_time" > #last_time# </isNotNull>
+	      <isNotNull prepend="," property="last_ip" > #last_ip# </isNotNull>
+	      )
+	    </dynamic>
+	</insert>
+	
+	<!-- 用户名/email和密码查询 -->
+	<select id="selectByLoginAndPwd" resultClass="userInfo" parameterClass="userInfo">
+		 SELECT 
+		 <include refid="userInfo_Column_List"/>
+         FROM user_info 
+         WHERE login_pwd = #login_pwd#
+         and login_name = #login_name#
+	</select>
+	
+	<!-- 主键查询 -->
+	<select id="selectByPrimaryKey" resultClass="userInfo" parameterClass="userInfo">
+		 SELECT 
+		 <include refid="userInfo_Column_List"/>
+         FROM user_info  
+         WHERE user_id = #user_id#
+	</select>
+	
+	<!-- 列表查询 -->
+	<select id="selectByExample" resultMap="userInfoMap" parameterClass="userInfo">
+		 SELECT 
+		 <include refid="userInfo_Column_List"/>
+         FROM user_info  
+         <include refid="userInfoCondition" />
+         ORDER BY update_time desc
+	</select>
+	
+	<!-- 主键更新 -->
+	<update id="updateByPrimaryKeySelective" parameterClass="userInfo">
+		UPDATE user_info 
+		<dynamic prepend="set">
+	      	<isNotNull prepend="," property="user_id" > user_id = #user_id# </isNotNull>
+	      	<isNotNull prepend="," property="login_name" > login_name = #login_name# </isNotNull>
+	      	<isNotNull prepend="," property="login_pwd" > login_pwd = #login_pwd# </isNotNull>
+	      	<isNotNull prepend="," property="user_name" > user_name = #user_name# </isNotNull>
+	      	<isNotNull prepend="," property="user_email" > user_email = #user_email# </isNotNull>
+	      	<isNotNull prepend="," property="user_phone" > user_phone = #user_phone# </isNotNull>
+	      	<isNotNull prepend="," property="user_post" > user_post = #user_post# </isNotNull>
+	      	<isNotNull prepend="," property="user_address" > user_address = #user_address# </isNotNull>
+	      	<isNotNull prepend="," property="user_remark" > user_remark = #user_remark# </isNotNull>
+	      	<isNotNull prepend="," property="create_time" > create_time = #create_time# </isNotNull>
+	      	<isNotNull prepend="," property="update_time" > update_time = #update_time# </isNotNull>
+	      	<isNotNull prepend="," property="last_time" > last_time = #last_time# </isNotNull>
+	      	<isNotNull prepend="," property="last_ip" > last_ip = #last_ip# </isNotNull>
+		</dynamic>
+		WHERE user_id = #user_id#
+	</update>
+	
+	<!-- 数量查询 -->
+	<select id="countByExample" resultClass="int" parameterClass="userInfo">
+		SELECT count(user_id) FROM user_info 
+        <include refid="userInfoCondition" />
+	</select>
+	
+	<!-- 删除 -->
+	<delete id="deleteByExample" parameterClass="userInfo">
+		DELETE FROM user_info 
+        <include refid="userInfoCondition" />
+	</delete>
+</sqlMap>

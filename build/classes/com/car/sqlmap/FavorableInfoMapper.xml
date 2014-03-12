@@ -1,0 +1,145 @@
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!--优惠信息表mapper 对应表：favorable_info-->
+<sqlMap namespace="com.car.domain.FavorableInfo">
+
+	<!-- Use type aliases to avoid typing the full classname every time. -->
+	<typeAlias alias="favorableInfo" type="com.car.domain.FavorableInfo" />
+	
+	<resultMap id="favorableInfoMap" class="com.car.domain.FavorableInfo">
+		<result column="favor_id" jdbcType="number" property="favor_id"/>
+		<result column="favor_title" jdbcType="VARCHAR" property="favor_title"/>
+		<result column="favor_intro" jdbcType="VARCHAR" property="favor_intro"/>
+		<result column="favor_detail" jdbcType="BLOB" property="favor_detail"/>
+		<result column="favor_counselor" jdbcType="VARCHAR" property="favor_counselor"/>
+		<result column="favor_phone" jdbcType="VARCHAR" property="favor_phone"/>
+		<result column="hot_line" jdbcType="VARCHAR" property="hot_line"/>
+		<result column="file_path" jdbcType="VARCHAR" property="file_path"/>
+		<result column="car_type" jdbcType="int" property="car_type"/>
+		<result column="car_type_son" jdbcType="int" property="car_type_son"/>
+		<result column="car_type_name" jdbcType="VARCHAR" property="car_type_name"/>
+		<result column="create_time" jdbcType="VARCHAR" property="create_time"/>
+		<result column="update_time" jdbcType="VARCHAR" property="update_time"/>
+		<result column="favor_bdate" jdbcType="VARCHAR" property="favor_bdate"/>
+		<result column="favor_edate" jdbcType="VARCHAR" property="favor_edate"/>
+	</resultMap>
+	<sql id="favorableInfo_Column_List">
+		favor_id, favor_title, favor_intro, favor_detail, favor_counselor, favor_phone, hot_line, file_path, 
+		car_type, car_type_son, car_type_name, create_time, update_time, favor_bdate, favor_edate
+	</sql>
+	<sql id="favorableInfoCondition">
+        <dynamic prepend="where">
+            <isNotEmpty prepend="and" property="favor_id">
+               favor_id  = #favor_id#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="car_type_son">
+               car_type_son  = #car_type_son#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="car_type">
+               car_type  = #car_type#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="favor_bdate">
+               <![CDATA[ favor_bdate >= #favor_bdate# ]]> 
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="favor_edate">
+               <![CDATA[ favor_edate <= #favor_edate# ]]>  
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="favor_title">
+            	favor_title like '%$favor_title$%'
+            </isNotEmpty>
+        </dynamic>        
+    </sql>
+	<!-- 插入数据 -->
+	<insert id="insertSelective" parameterClass="favorableInfo">
+		insert into favorable_info
+		<dynamic prepend="(" >
+	      <isNotNull prepend="," property="favor_id" > favor_id </isNotNull>
+	      <isNotNull prepend="," property="favor_title" > favor_title </isNotNull>
+	      <isNotNull prepend="," property="favor_intro" > favor_intro </isNotNull>
+	      <isNotNull prepend="," property="favor_detail" > favor_detail </isNotNull>
+	      <isNotNull prepend="," property="favor_counselor" > favor_counselor </isNotNull>
+	      <isNotNull prepend="," property="favor_phone" > favor_phone </isNotNull>
+	      <isNotNull prepend="," property="hot_line" > hot_line </isNotNull>
+	      <isNotNull prepend="," property="file_path" > file_path </isNotNull>
+	      <isNotNull prepend="," property="car_type" > car_type </isNotNull>
+	      <isNotNull prepend="," property="car_type_son" > car_type_son </isNotNull>
+	      <isNotNull prepend="," property="car_type_name" > car_type_name </isNotNull>
+	      <isNotNull prepend="," property="create_time" > create_time </isNotNull>
+	      <isNotNull prepend="," property="update_time" > update_time </isNotNull>
+	      <isNotNull prepend="," property="favor_bdate" > favor_bdate </isNotNull>
+	      <isNotNull prepend="," property="favor_edate" > favor_edate </isNotNull>
+	      )
+	    </dynamic>
+		values
+		<dynamic prepend="(" >
+	      <isNotNull prepend="," property="favor_id" > #favor_id# </isNotNull>
+	      <isNotNull prepend="," property="favor_title" > #favor_title# </isNotNull>
+	      <isNotNull prepend="," property="favor_intro" > #favor_intro# </isNotNull>
+	      <isNotNull prepend="," property="favor_detail" > #favor_detail# </isNotNull>
+	      <isNotNull prepend="," property="favor_counselor" > #favor_counselor# </isNotNull>
+	      <isNotNull prepend="," property="favor_phone" > #favor_phone# </isNotNull>
+	      <isNotNull prepend="," property="hot_line" > #hot_line# </isNotNull>
+	      <isNotNull prepend="," property="file_path" > #file_path# </isNotNull>
+	      <isNotNull prepend="," property="car_type" > #car_type# </isNotNull>
+	      <isNotNull prepend="," property="car_type_son" > #car_type_son# </isNotNull>
+	      <isNotNull prepend="," property="car_type_name" > #car_type_name# </isNotNull>
+	      <isNotNull prepend="," property="create_time" > #create_time# </isNotNull>
+	      <isNotNull prepend="," property="update_time" > #update_time# </isNotNull>
+	      <isNotNull prepend="," property="favor_bdate" > #favor_bdate# </isNotNull>
+	      <isNotNull prepend="," property="favor_edate" > #favor_edate# </isNotNull>
+	      )
+	    </dynamic>
+	</insert>
+	
+	<!-- 主键查询 -->
+	<select id="selectByPrimaryKey" resultClass="favorableInfo" parameterClass="favorableInfo">
+		 SELECT 
+		 <include refid="favorableInfo_Column_List"/>
+         FROM favorable_info  
+         WHERE favor_id = #favor_id#
+	</select>
+	
+	<!-- 列表查询 -->
+	<select id="selectByExample" resultMap="favorableInfoMap" parameterClass="favorableInfo">
+		 SELECT 
+		 <include refid="favorableInfo_Column_List"/>
+         FROM favorable_info  
+         <include refid="favorableInfoCondition" />
+         ORDER BY update_time desc
+	</select>
+	
+	<!-- 主键更新 -->
+	<update id="updateByPrimaryKeySelective" parameterClass="favorableInfo">
+		UPDATE favorable_info 
+		<dynamic prepend="set">
+	      	<isNotNull prepend="," property="favor_id" > favor_id = #favor_id# </isNotNull>
+	      	<isNotNull prepend="," property="favor_title" > favor_title = #favor_title# </isNotNull>
+	      	<isNotNull prepend="," property="favor_intro" > favor_intro = #favor_intro# </isNotNull>
+	      	<isNotNull prepend="," property="favor_detail" > favor_detail = #favor_detail# </isNotNull>
+	      	<isNotNull prepend="," property="favor_counselor" > favor_counselor = #favor_counselor# </isNotNull>
+	      	<isNotNull prepend="," property="favor_phone" > favor_phone = #favor_phone# </isNotNull>
+	      	<isNotNull prepend="," property="hot_line" > hot_line = #hot_line# </isNotNull>
+	      	<isNotNull prepend="," property="file_path" > file_path = #file_path# </isNotNull>
+	      	<isNotNull prepend="," property="car_type" > car_type = #car_type# </isNotNull>
+	      	<isNotNull prepend="," property="car_type_son" > car_type_son = #car_type_son# </isNotNull>
+	      	<isNotNull prepend="," property="car_type_name" > car_type_name = #car_type_name# </isNotNull>
+	      	<isNotNull prepend="," property="create_time" > create_time = #create_time# </isNotNull>
+	      	<isNotNull prepend="," property="update_time" > update_time = #update_time# </isNotNull>
+	      	<isNotNull prepend="," property="favor_bdate" > favor_bdate = #favor_bdate# </isNotNull>
+	      	<isNotNull prepend="," property="favor_edate" > favor_edate = #favor_edate# </isNotNull>
+		</dynamic>
+		WHERE favor_id = #favor_id#
+	</update>
+	
+	<!-- 数量查询 -->
+	<select id="countByExample" resultClass="int" parameterClass="favorableInfo">
+		SELECT count(favor_id) FROM favorable_info 
+        <include refid="favorableInfoCondition" />
+	</select>
+	
+	<!-- 删除 -->
+	<delete id="deleteByExample" parameterClass="favorableInfo">
+		DELETE FROM favorable_info 
+        <include refid="favorableInfoCondition" />
+	</delete>
+</sqlMap>

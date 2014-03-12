@@ -1,0 +1,116 @@
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!--新闻信息表mapper 对应表：news_info-->
+<sqlMap namespace="com.car.domain.NewsInfo">
+
+	<!-- Use type aliases to avoid typing the full classname every time. -->
+	<typeAlias alias="newsInfo" type="com.car.domain.NewsInfo" />
+	
+	<resultMap id="newsInfoMap" class="com.car.domain.NewsInfo">
+		<result column="news_id" jdbcType="number" property="news_id"/>
+		<result column="news_title" jdbcType="VARCHAR" property="news_title"/>
+		<result column="type_id" jdbcType="number" property="type_id"/>
+		<result column="type_name" jdbcType="VARCHAR" property="type_name"/>
+		<result column="outer_url" jdbcType="VARCHAR" property="outer_url"/>
+		<result column="news_content" jdbcType="BLOB" property="news_content"/>
+		<result column="file_path" jdbcType="VARCHAR" property="file_path"/>
+		<result column="create_time" jdbcType="VARCHAR" property="create_time"/>
+		<result column="update_time" jdbcType="VARCHAR" property="update_time"/>
+	</resultMap>
+	<sql id="newsInfo_Column_List">
+		n.news_id, n.news_title, n.type_id, t.type_name, n.outer_url, 
+		n.news_content, n.file_path, n.create_time, n.update_time
+	</sql>
+	<sql id="newsInfoCondition">
+        <dynamic prepend="where">
+            <isNotEmpty prepend="and" property="news_id">
+               n.news_id = #news_id#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="type_id">
+               n.type_id = #type_id#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="news_title">
+            	n.news_title like '%$news_title$%'
+            </isNotEmpty>
+        </dynamic>        
+    </sql>
+	<!-- 插入数据 -->
+	<insert id="insertSelective" parameterClass="newsInfo">
+		insert into news_info
+		<dynamic prepend="(" >
+	      <isNotNull prepend="," property="news_id" > news_id </isNotNull>
+	      <isNotNull prepend="," property="news_title" > news_title </isNotNull>
+	      <isNotNull prepend="," property="type_id" > type_id </isNotNull>
+	      <isNotNull prepend="," property="outer_url" > outer_url </isNotNull>
+	      <isNotNull prepend="," property="news_content" > news_content </isNotNull>
+	      <isNotNull prepend="," property="file_path" > file_path </isNotNull>
+	      <isNotNull prepend="," property="create_time" > create_time </isNotNull>
+	      <isNotNull prepend="," property="update_time" > update_time </isNotNull>
+	      )
+	    </dynamic>
+		values
+		<dynamic prepend="(" >
+	      <isNotNull prepend="," property="news_id" > #news_id# </isNotNull>
+	      <isNotNull prepend="," property="news_title" > #news_title# </isNotNull>
+	      <isNotNull prepend="," property="type_id" > #type_id# </isNotNull>
+	      <isNotNull prepend="," property="outer_url" > #outer_url# </isNotNull>
+	      <isNotNull prepend="," property="news_content" > #news_content# </isNotNull>
+	      <isNotNull prepend="," property="file_path" > #file_path# </isNotNull>
+	      <isNotNull prepend="," property="create_time" > #create_time# </isNotNull>
+	      <isNotNull prepend="," property="update_time" > #update_time# </isNotNull>
+	      )
+	    </dynamic>
+	</insert>
+	
+	<!-- 主键查询 -->
+	<select id="selectByPrimaryKey" resultClass="newsInfo" parameterClass="newsInfo">
+		 SELECT 
+		 <include refid="newsInfo_Column_List"/>
+         FROM news_info n left join type_info t on n.type_id=t.type_id  
+         WHERE n.news_id = #news_id#
+	</select>
+	
+	<!-- 列表查询 -->
+	<select id="selectByExample" resultMap="newsInfoMap" parameterClass="newsInfo">
+		 SELECT 
+		 <include refid="newsInfo_Column_List"/>
+         FROM news_info n left join type_info t on n.type_id=t.type_id
+         <include refid="newsInfoCondition" />
+         ORDER BY n.update_time desc
+	</select>
+	
+	<!-- 主键更新 -->
+	<update id="updateByPrimaryKeySelective" parameterClass="newsInfo">
+		UPDATE news_info 
+		<dynamic prepend="set">
+	      	<isNotNull prepend="," property="news_id" > news_id = #news_id# </isNotNull>
+	      	<isNotNull prepend="," property="news_title" > news_title = #news_title# </isNotNull>
+	      	<isNotNull prepend="," property="type_id" > type_id = #type_id# </isNotNull>
+	      	<isNotNull prepend="," property="outer_url" > outer_url = #outer_url# </isNotNull>
+	      	<isNotNull prepend="," property="news_content" > news_content = #news_content# </isNotNull>
+	      	<isNotNull prepend="," property="file_path" > file_path = #file_path# </isNotNull>
+	      	<isNotNull prepend="," property="create_time" > create_time = #create_time# </isNotNull>
+	      	<isNotNull prepend="," property="update_time" > update_time = #update_time# </isNotNull>
+		</dynamic>
+		WHERE news_id = #news_id#
+	</update>
+	
+	<!-- 数量查询 -->
+	<select id="countByExample" resultClass="int" parameterClass="newsInfo">
+		SELECT count(n.news_id) FROM news_info n left join type_info t on n.type_id=t.type_id 
+        <include refid="newsInfoCondition" />
+	</select>
+	
+	<!-- 删除 -->
+	<delete id="deleteByExample" parameterClass="newsInfo">
+		DELETE FROM news_info 
+        <dynamic prepend="where">
+            <isNotEmpty prepend="and" property="news_id">
+               news_id = #news_id#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="type_id">
+               type_id = #type_id#
+            </isNotEmpty>
+        </dynamic> 
+	</delete>
+</sqlMap>

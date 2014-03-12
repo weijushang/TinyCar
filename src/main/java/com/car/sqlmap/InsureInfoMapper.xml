@@ -1,0 +1,96 @@
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!--保险信息表mapper 对应表：insure_info-->
+<sqlMap namespace="com.car.domain.InsureInfo">
+
+	<!-- Use type aliases to avoid typing the full classname every time. -->
+	<typeAlias alias="insureInfo" type="com.car.domain.InsureInfo" />
+	
+	<resultMap id="insureInfoMap" class="com.car.domain.InsureInfo">
+		<result column="insure_id" jdbcType="number" property="insure_id"/>
+		<result column="insure_title" jdbcType="VARCHAR" property="insure_title"/>
+		<result column="insure_intro" jdbcType="VARCHAR" property="insure_intro"/>
+		<result column="insure_detail" jdbcType="BLOB" property="insure_detail"/>
+		<result column="create_time" jdbcType="VARCHAR" property="create_time"/>
+		<result column="update_time" jdbcType="VARCHAR" property="update_time"/>
+	</resultMap>
+	<sql id="insureInfo_Column_List">
+		insure_id, insure_title, insure_intro, insure_detail, create_time, update_time
+	</sql>
+	<sql id="insureInfoCondition">
+        <dynamic prepend="where">
+            <isNotEmpty prepend="and" property="insure_id">
+               insure_id  = #insure_id#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="insure_title">
+            	insure_title like '%$insure_title$%'
+            </isNotEmpty>
+        </dynamic>        
+    </sql>
+	<!-- 插入数据 -->
+	<insert id="insertSelective" parameterClass="insureInfo">
+		insert into insure_info
+		<dynamic prepend="(" >
+	      <isNotNull prepend="," property="insure_id" > insure_id </isNotNull>
+	      <isNotNull prepend="," property="insure_title" > insure_title </isNotNull>
+	      <isNotNull prepend="," property="insure_intro" > insure_intro </isNotNull>
+	      <isNotNull prepend="," property="insure_detail" > insure_detail </isNotNull>
+	      <isNotNull prepend="," property="create_time" > create_time </isNotNull>
+	      <isNotNull prepend="," property="update_time" > update_time </isNotNull>
+	      )
+	    </dynamic>
+		values
+		<dynamic prepend="(" >
+	      <isNotNull prepend="," property="insure_id" > #insure_id# </isNotNull>
+	      <isNotNull prepend="," property="insure_title" > #insure_title# </isNotNull>
+	      <isNotNull prepend="," property="insure_intro" > #insure_intro# </isNotNull>
+	      <isNotNull prepend="," property="insure_detail" > #insure_detail# </isNotNull>
+	      <isNotNull prepend="," property="create_time" > #create_time# </isNotNull>
+	      <isNotNull prepend="," property="update_time" > #update_time# </isNotNull>
+	      )
+	    </dynamic>
+	</insert>
+	
+	<!-- 主键查询 -->
+	<select id="selectByPrimaryKey" resultClass="insureInfo" parameterClass="insureInfo">
+		 SELECT 
+		 <include refid="insureInfo_Column_List"/>
+         FROM insure_info  
+         WHERE insure_id = #insure_id#
+	</select>
+	
+	<!-- 列表查询 -->
+	<select id="selectByExample" resultMap="insureInfoMap" parameterClass="insureInfo">
+		 SELECT 
+		 <include refid="insureInfo_Column_List"/>
+         FROM insure_info  
+         <include refid="insureInfoCondition" />
+         ORDER BY update_time desc
+	</select>
+	
+	<!-- 主键更新 -->
+	<update id="updateByPrimaryKeySelective" parameterClass="insureInfo">
+		UPDATE insure_info 
+		<dynamic prepend="set">
+	      	<isNotNull prepend="," property="insure_id" > insure_id = #insure_id# </isNotNull>
+	      	<isNotNull prepend="," property="insure_title" > insure_title = #insure_title# </isNotNull>
+	      	<isNotNull prepend="," property="insure_intro" > insure_intro = #insure_intro# </isNotNull>
+	      	<isNotNull prepend="," property="insure_detail" > insure_detail = #insure_detail# </isNotNull>
+	      	<isNotNull prepend="," property="create_time" > create_time = #create_time# </isNotNull>
+	      	<isNotNull prepend="," property="update_time" > update_time = #update_time# </isNotNull>
+		</dynamic>
+		WHERE insure_id = #insure_id#
+	</update>
+	
+	<!-- 数量查询 -->
+	<select id="countByExample" resultClass="int" parameterClass="insureInfo">
+		SELECT count(insure_id) FROM insure_info 
+        <include refid="insureInfoCondition" />
+	</select>
+	
+	<!-- 删除 -->
+	<delete id="deleteByExample" parameterClass="insureInfo">
+		DELETE FROM insure_info 
+        <include refid="insureInfoCondition" />
+	</delete>
+</sqlMap>

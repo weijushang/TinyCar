@@ -1,0 +1,9 @@
+.header{
+	background-image:url(../img/nav/nav-bg.png);
+	background-repeat:repeat-x;
+	height:49px;
+	display:block;
+	margin-bottom:5px;
+	width:100%;
+	top:0px;
+}

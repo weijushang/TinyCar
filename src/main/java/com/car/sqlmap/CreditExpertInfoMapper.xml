@@ -1,0 +1,114 @@
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!--贷款专家mapper 对应表：credit_expert_info-->
+<sqlMap namespace="com.car.domain.CreditExpertInfo">
+
+	<!-- Use type aliases to avoid typing the full classname every time. -->
+	<typeAlias alias="creditExpertInfo" type="com.car.domain.CreditExpertInfo" />
+	
+	<resultMap id="creditExpertInfoMap" class="com.car.domain.CreditExpertInfo">
+		<result column="expert_id" jdbcType="number" property="expert_id"/>
+		<result column="product_id" jdbcType="number" property="product_id"/>
+		<result column="product_title" jdbcType="VARCHAR" property="product_title"/>
+		<result column="expert_state" jdbcType="VARCHAR" property="expert_state"/>
+		<result column="car_price" jdbcType="VARCHAR" property="car_price"/>
+		<result column="cust_name" jdbcType="VARCHAR" property="cust_name"/>
+		<result column="cust_phone" jdbcType="VARCHAR" property="cust_phone"/>
+		<result column="create_time" jdbcType="VARCHAR" property="create_time"/>
+		<result column="update_time" jdbcType="VARCHAR" property="update_time"/>
+	</resultMap>
+	<sql id="creditExpertInfo_Column_List">
+		expert_id, product_id, product_title, expert_state, car_price, cust_name, cust_phone, create_time, update_time
+	</sql>
+	<sql id="creditExpertInfoCondition">
+        <dynamic prepend="where">
+            <isNotEmpty prepend="and" property="expert_id">
+               expert_id = #expert_id#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="product_id">
+               product_id = #product_id#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="expert_state">
+               expert_state = #expert_state#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="cust_name">
+               cust_name like '%$cust_name$%'
+            </isNotEmpty>
+        </dynamic>        
+    </sql>
+	<!-- 插入数据 -->
+	<insert id="insertSelective" parameterClass="creditExpertInfo">
+		insert into credit_expert_info
+		<dynamic prepend="(" >
+	      <isNotNull prepend="," property="expert_id" > expert_id </isNotNull>
+	      <isNotNull prepend="," property="product_id" > product_id </isNotNull>
+	      <isNotNull prepend="," property="product_title" > product_title </isNotNull>
+	      <isNotNull prepend="," property="expert_state" > expert_state </isNotNull>
+	      <isNotNull prepend="," property="car_price" > car_price </isNotNull>
+	      <isNotNull prepend="," property="cust_name" > cust_name </isNotNull>
+	      <isNotNull prepend="," property="cust_phone" > cust_phone </isNotNull>
+	      <isNotNull prepend="," property="create_time" > create_time </isNotNull>
+	      <isNotNull prepend="," property="update_time" > update_time </isNotNull>
+	      )
+	    </dynamic>
+		values
+		<dynamic prepend="(" >
+	      <isNotNull prepend="," property="expert_id" > #expert_id# </isNotNull>
+	      <isNotNull prepend="," property="product_id" > #product_id# </isNotNull>
+	      <isNotNull prepend="," property="product_title" > #product_title# </isNotNull>
+	      <isNotNull prepend="," property="expert_state" > #expert_state# </isNotNull>
+	      <isNotNull prepend="," property="car_price" > #car_price# </isNotNull>
+	      <isNotNull prepend="," property="cust_name" > #cust_name# </isNotNull>
+	      <isNotNull prepend="," property="cust_phone" > #cust_phone# </isNotNull>
+	      <isNotNull prepend="," property="create_time" > #create_time# </isNotNull>
+	      <isNotNull prepend="," property="update_time" > #update_time# </isNotNull>
+	      )
+	    </dynamic>
+	</insert>
+	
+	<!-- 主键查询 -->
+	<select id="selectByPrimaryKey" resultClass="creditExpertInfo" parameterClass="creditExpertInfo">
+		 SELECT 
+		 <include refid="creditExpertInfo_Column_List"/>
+         FROM credit_expert_info  
+         WHERE expert_id = #expert_id#
+	</select>
+	
+	<!-- 列表查询 -->
+	<select id="selectByExample" resultMap="creditExpertInfoMap" parameterClass="creditExpertInfo">
+		 SELECT 
+		 <include refid="creditExpertInfo_Column_List"/>
+         FROM credit_expert_info  
+         <include refid="creditExpertInfoCondition" />
+         ORDER BY update_time desc
+	</select>
+	
+	<!-- 主键更新 -->
+	<update id="updateByPrimaryKeySelective" parameterClass="creditExpertInfo">
+		UPDATE credit_expert_info 
+		<dynamic prepend="set">
+	      	<isNotNull prepend="," property="expert_id" > expert_id = #expert_id# </isNotNull>
+	      	<isNotNull prepend="," property="product_id" > product_id = #product_id# </isNotNull>
+	      	<isNotNull prepend="," property="product_title" > product_title = #product_title# </isNotNull>
+	      	<isNotNull prepend="," property="expert_state" > expert_state = #expert_state# </isNotNull>
+	      	<isNotNull prepend="," property="car_price" > car_price = #car_price# </isNotNull>
+	      	<isNotNull prepend="," property="cust_name" > cust_name = #cust_name# </isNotNull>
+	      	<isNotNull prepend="," property="cust_phone" > cust_phone = #cust_phone# </isNotNull>
+	      	<isNotNull prepend="," property="create_time" > create_time = #create_time# </isNotNull>
+	      	<isNotNull prepend="," property="update_time" > update_time = #update_time# </isNotNull>
+		</dynamic>
+		WHERE expert_id = #expert_id#
+	</update>
+	
+	<!-- 数量查询 -->
+	<select id="countByExample" resultClass="int" parameterClass="creditExpertInfo">
+		SELECT count(expert_id) FROM credit_expert_info 
+        <include refid="creditExpertInfoCondition" />
+	</select>
+	
+	<!-- 删除 -->
+	<delete id="deleteByExample" parameterClass="creditExpertInfo">
+		DELETE FROM credit_expert_info 
+        <include refid="creditExpertInfoCondition" />
+	</delete>
+</sqlMap>

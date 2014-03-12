@@ -1,0 +1,108 @@
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!--产品信息表mapper 对应表：product_info-->
+<sqlMap namespace="com.car.domain.ProductInfo">
+
+	<!-- Use type aliases to avoid typing the full classname every time. -->
+	<typeAlias alias="productInfo" type="com.car.domain.ProductInfo" />
+	
+	<resultMap id="productInfoMap" class="com.car.domain.ProductInfo">
+		<result column="product_id" jdbcType="number" property="product_id"/>
+		<result column="product_title" jdbcType="VARCHAR" property="product_title"/>
+		<result column="product_detail" jdbcType="BLOB" property="product_detail"/>
+		<result column="p_counselor" jdbcType="VARCHAR" property="p_counselor"/>
+		<result column="phone_call" jdbcType="VARCHAR" property="phone_call"/>
+		<result column="hot_line" jdbcType="VARCHAR" property="hot_line"/>
+		<result column="file_path" jdbcType="VARCHAR" property="file_path"/>
+		<result column="create_time" jdbcType="VARCHAR" property="create_time"/>
+		<result column="update_time" jdbcType="VARCHAR" property="update_time"/>
+	</resultMap>
+	<sql id="productInfo_Column_List">
+		product_id, product_title, product_detail, p_counselor, phone_call, hot_line, file_path, create_time, update_time
+	</sql>
+	<sql id="productInfoCondition">
+        <dynamic prepend="where">
+            <isNotEmpty prepend="and" property="product_id">
+               product_id  = #product_id#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="product_title">
+            	product_title like '%$product_title$%'
+            </isNotEmpty>
+        </dynamic>        
+    </sql>
+	<!-- 插入数据 -->
+	<insert id="insertSelective" parameterClass="productInfo">
+		insert into product_info
+		<dynamic prepend="(" >
+	      <isNotNull prepend="," property="product_id" > product_id </isNotNull>
+	      <isNotNull prepend="," property="product_title" > product_title </isNotNull>
+	      <isNotNull prepend="," property="product_detail" > product_detail </isNotNull>
+	      <isNotNull prepend="," property="p_counselor" > p_counselor </isNotNull>
+	      <isNotNull prepend="," property="phone_call" > phone_call </isNotNull>
+	      <isNotNull prepend="," property="hot_line" > hot_line </isNotNull>
+	      <isNotNull prepend="," property="file_path" > file_path </isNotNull>
+	      <isNotNull prepend="," property="create_time" > create_time </isNotNull>
+	      <isNotNull prepend="," property="update_time" > update_time </isNotNull>
+	      )
+	    </dynamic>
+		values
+		<dynamic prepend="(" >
+	      <isNotNull prepend="," property="product_id" > #product_id# </isNotNull>
+	      <isNotNull prepend="," property="product_title" > #product_title# </isNotNull>
+	      <isNotNull prepend="," property="product_detail" > #product_detail# </isNotNull>
+	      <isNotNull prepend="," property="p_counselor" > #p_counselor# </isNotNull>
+	      <isNotNull prepend="," property="phone_call" > #phone_call# </isNotNull>
+	      <isNotNull prepend="," property="hot_line" > #hot_line# </isNotNull>
+	      <isNotNull prepend="," property="file_path" > #file_path# </isNotNull>
+	      <isNotNull prepend="," property="create_time" > #create_time# </isNotNull>
+	      <isNotNull prepend="," property="update_time" > #update_time# </isNotNull>
+	      )
+	    </dynamic>
+	</insert>
+	
+	<!-- 主键查询 -->
+	<select id="selectByPrimaryKey" resultClass="productInfo" parameterClass="productInfo">
+		 SELECT 
+		 <include refid="productInfo_Column_List"/>
+         FROM product_info  
+         WHERE product_id = #product_id#
+	</select>
+	
+	<!-- 列表查询 -->
+	<select id="selectByExample" resultMap="productInfoMap" parameterClass="productInfo">
+		 SELECT 
+		 <include refid="productInfo_Column_List"/>
+         FROM product_info  
+         <include refid="productInfoCondition" />
+         ORDER BY update_time desc
+	</select>
+	
+	<!-- 主键更新 -->
+	<update id="updateByPrimaryKeySelective" parameterClass="productInfo">
+		UPDATE product_info 
+		<dynamic prepend="set">
+	      	<isNotNull prepend="," property="product_id" > product_id = #product_id# </isNotNull>
+	      	<isNotNull prepend="," property="product_title" > product_title = #product_title# </isNotNull>
+	      	<isNotNull prepend="," property="product_detail" > product_detail = #product_detail# </isNotNull>
+	      	<isNotNull prepend="," property="p_counselor" > p_counselor = #p_counselor# </isNotNull>
+	      	<isNotNull prepend="," property="phone_call" > phone_call = #phone_call# </isNotNull>
+	      	<isNotNull prepend="," property="hot_line" > hot_line = #hot_line# </isNotNull>
+	      	<isNotNull prepend="," property="file_path" > file_path = #file_path# </isNotNull>
+	      	<isNotNull prepend="," property="create_time" > create_time = #create_time# </isNotNull>
+	      	<isNotNull prepend="," property="update_time" > update_time = #update_time# </isNotNull>
+		</dynamic>
+		WHERE product_id = #product_id#
+	</update>
+	
+	<!-- 数量查询 -->
+	<select id="countByExample" resultClass="int" parameterClass="productInfo">
+		SELECT count(product_id) FROM product_info 
+        <include refid="productInfoCondition" />
+	</select>
+	
+	<!-- 删除 -->
+	<delete id="deleteByExample" parameterClass="productInfo">
+		DELETE FROM product_info 
+        <include refid="productInfoCondition" />
+	</delete>
+</sqlMap>

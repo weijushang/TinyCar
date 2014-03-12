@@ -1,0 +1,106 @@
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!--结清预约mapper 对应表：settle_info-->
+<sqlMap namespace="com.car.domain.SettleInfo">
+
+	<!-- Use type aliases to avoid typing the full classname every time. -->
+	<typeAlias alias="settleInfo" type="com.car.domain.SettleInfo" />
+	
+	<resultMap id="settleInfoMap" class="com.car.domain.SettleInfo">
+		<result column="settle_id" jdbcType="number" property="settle_id"/>
+		<result column="settle_name" jdbcType="VARCHAR" property="settle_name"/>
+		<result column="settle_phone" jdbcType="VARCHAR" property="settle_phone"/>
+		<result column="settle_state" jdbcType="VARCHAR" property="settle_state"/>
+		<result column="settle_remark" jdbcType="VARCHAR" property="settle_remark"/>
+		<result column="create_time" jdbcType="VARCHAR" property="create_time"/>
+		<result column="update_time" jdbcType="VARCHAR" property="update_time"/>
+	</resultMap>
+	<sql id="settleInfo_Column_List">
+		settle_id, settle_name, settle_phone, settle_state, settle_remark, create_time, update_time
+	</sql>
+	<sql id="settleInfoCondition">
+        <dynamic prepend="where">
+            <isNotEmpty prepend="and" property="settle_id">
+               settle_id = #settle_id#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="settle_state">
+               settle_state = #settle_state#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="settle_phone">
+               settle_phone = #settle_phone#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="settle_name">
+               settle_name like '%$settle_name$%'
+            </isNotEmpty>
+        </dynamic>        
+    </sql>
+	<!-- 插入数据 -->
+	<insert id="insertSelective" parameterClass="settleInfo">
+		insert into settle_info
+		<dynamic prepend="(" >
+	      <isNotNull prepend="," property="settle_id" > settle_id </isNotNull>
+	      <isNotNull prepend="," property="settle_name" > settle_name </isNotNull>
+	      <isNotNull prepend="," property="settle_phone" > settle_phone </isNotNull>
+	      <isNotNull prepend="," property="settle_state" > settle_state </isNotNull>
+	      <isNotNull prepend="," property="settle_remark" > settle_remark </isNotNull>
+	      <isNotNull prepend="," property="create_time" > create_time </isNotNull>
+	      <isNotNull prepend="," property="update_time" > update_time </isNotNull>
+	      )
+	    </dynamic>
+		values
+		<dynamic prepend="(" >
+	      <isNotNull prepend="," property="settle_id" > #settle_id# </isNotNull>
+	      <isNotNull prepend="," property="settle_name" > #settle_name# </isNotNull>
+	      <isNotNull prepend="," property="settle_phone" > #settle_phone# </isNotNull>
+	      <isNotNull prepend="," property="settle_state" > #settle_state# </isNotNull>
+	      <isNotNull prepend="," property="settle_remark" > #settle_remark# </isNotNull>
+	      <isNotNull prepend="," property="create_time" > #create_time# </isNotNull>
+	      <isNotNull prepend="," property="update_time" > #update_time# </isNotNull>
+	      )
+	    </dynamic>
+	</insert>
+	
+	<!-- 主键查询 -->
+	<select id="selectByPrimaryKey" resultClass="settleInfo" parameterClass="settleInfo">
+		 SELECT 
+		 <include refid="settleInfo_Column_List"/>
+         FROM settle_info  
+         WHERE settle_id = #settle_id#
+	</select>
+	
+	<!-- 列表查询 -->
+	<select id="selectByExample" resultMap="settleInfoMap" parameterClass="settleInfo">
+		 SELECT 
+		 <include refid="settleInfo_Column_List"/>
+         FROM settle_info  
+         <include refid="settleInfoCondition" />
+         ORDER BY update_time desc
+	</select>
+	
+	<!-- 主键更新 -->
+	<update id="updateByPrimaryKeySelective" parameterClass="settleInfo">
+		UPDATE settle_info 
+		<dynamic prepend="set">
+	      	<isNotNull prepend="," property="settle_id" > settle_id = #settle_id# </isNotNull>
+	      	<isNotNull prepend="," property="settle_name" > settle_name = #settle_name# </isNotNull>
+	      	<isNotNull prepend="," property="settle_phone" > settle_phone = #settle_phone# </isNotNull>
+	      	<isNotNull prepend="," property="settle_state" > settle_state = #settle_state# </isNotNull>
+	      	<isNotNull prepend="," property="settle_remark" > settle_remark = #settle_remark# </isNotNull>
+	      	<isNotNull prepend="," property="create_time" > create_time = #create_time# </isNotNull>
+	      	<isNotNull prepend="," property="update_time" > update_time = #update_time# </isNotNull>
+		</dynamic>
+		WHERE settle_id = #settle_id#
+	</update>
+	
+	<!-- 数量查询 -->
+	<select id="countByExample" resultClass="int" parameterClass="settleInfo">
+		SELECT count(settle_id) FROM settle_info 
+        <include refid="settleInfoCondition" />
+	</select>
+	
+	<!-- 删除 -->
+	<delete id="deleteByExample" parameterClass="settleInfo">
+		DELETE FROM settle_info 
+        <include refid="settleInfoCondition" />
+	</delete>
+</sqlMap>

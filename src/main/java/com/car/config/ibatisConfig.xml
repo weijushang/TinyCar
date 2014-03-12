@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+	<settings errorTracingEnabled="true" 
+			  useStatementNamespaces="true"
+			  cacheModelsEnabled="true" 
+			  enhancementEnabled="true" 
+			  lazyLoadingEnabled="true" 
+			  maxRequests="32" 
+			  maxSessions="10" 
+			  maxTransactions="5"
+			  />
+	<!-- 用户信息 -->
+	<sqlMap resource="com/car/sqlmap/UserInfoMapper.xml"/>
+	<!-- 新闻信息 -->
+	<sqlMap resource="com/car/sqlmap/NewsInfoMapper.xml"/>
+	<!-- 保险信息 -->
+	<sqlMap resource="com/car/sqlmap/InsureInfoMapper.xml"/>
+	<!-- 预约信息 -->
+	<sqlMap resource="com/car/sqlmap/OrderInfoMapper.xml"/>
+	<!-- 优惠信息 -->
+	<sqlMap resource="com/car/sqlmap/FavorableInfoMapper.xml"/>
+	<!-- 文件信息 -->
+	<sqlMap resource="com/car/sqlmap/FileInfoMapper.xml"/>
+	<!-- 产品信息 -->
+	<sqlMap resource="com/car/sqlmap/ProductInfoMapper.xml"/>
+	<!-- 常见问题信息 -->
+	<sqlMap resource="com/car/sqlmap/FaqInfoMapper.xml"/>
+	<!-- 优惠专家信息 -->
+	<sqlMap resource="com/car/sqlmap/FavorExpertInfoMapper.xml"/>
+	<!-- 贷款专家信息 -->
+	<sqlMap resource="com/car/sqlmap/CreditExpertInfoMapper.xml"/>
+	<!-- 结清预约信息 -->
+	<sqlMap resource="com/car/sqlmap/SettleInfoMapper.xml"/>
+	<!-- 类别信息 -->
+	<sqlMap resource="com/car/sqlmap/TypeInfoMapper.xml"/>
+
+</sqlMapConfig>

@@ -1,0 +1,151 @@
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!--预约信息表mapper 对应表：order_info-->
+<sqlMap namespace="com.car.domain.OrderInfo">
+
+	<!-- Use type aliases to avoid typing the full classname every time. -->
+	<typeAlias alias="orderInfo" type="com.car.domain.OrderInfo" />
+	
+	<resultMap id="orderInfoMap" class="com.car.domain.OrderInfo">
+		<result column="order_id" jdbcType="number" property="order_id"/>
+		<result column="cust_name" jdbcType="VARCHAR" property="cust_name"/>
+		<result column="cust_phone" jdbcType="VARCHAR" property="cust_phone"/>
+		<result column="cust_sex" jdbcType="VARCHAR" property="cust_sex"/>
+		<result column="cust_card" jdbcType="VARCHAR" property="cust_card"/>
+		<result column="province_id" jdbcType="VARCHAR" property="province_id"/>
+		<result column="city_id" jdbcType="VARCHAR" property="city_id"/>
+		<result column="car_price" jdbcType="VARCHAR" property="car_price"/>
+		<result column="car_type" jdbcType="int" property="car_type"/>
+		<result column="car_type_son" jdbcType="int" property="car_type_son"/>
+		<result column="car_type_name" jdbcType="VARCHAR" property="car_type_name"/>
+		<result column="order_state" jdbcType="VARCHAR" property="order_state"/>
+		<result column="expert_id" jdbcType="number" property="expert_id"/>
+		<result column="create_time" jdbcType="VARCHAR" property="create_time"/>
+		<result column="update_time" jdbcType="VARCHAR" property="update_time"/>
+	</resultMap>
+	<sql id="orderInfo_Column_List">
+		order_id, cust_name, cust_phone, cust_sex, cust_card, province_id, city_id, car_price,
+		 car_type, car_type_son, car_type_name, order_state, expert_id, create_time, update_time
+	</sql>
+	<sql id="orderInfoCondition">
+        <dynamic prepend="where">
+            <isNotEmpty prepend="and" property="order_id">
+               order_id = #order_id#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="car_type">
+               car_type = #car_type#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="car_type_son">
+               car_type_son = #car_type_son#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="car_type_name">
+            	car_type_name like '%$car_type_name$%'
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="order_state">
+               order_state = #order_state#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="province_id">
+               province_id = #province_id#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="city_id">
+               city_id = #city_id#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="cust_name">
+            	cust_name like '%$cust_name$%'
+            </isNotEmpty>
+        </dynamic>        
+    </sql>
+	<!-- 插入数据 -->
+	<insert id="insertSelective" parameterClass="orderInfo">
+		insert into order_info
+		<dynamic prepend="(" >
+	      <isNotNull prepend="," property="order_id" > order_id </isNotNull>
+	      <isNotNull prepend="," property="cust_name" > cust_name </isNotNull>
+	      <isNotNull prepend="," property="cust_phone" > cust_phone </isNotNull>
+	      <isNotNull prepend="," property="cust_sex" > cust_sex </isNotNull>
+	      <isNotNull prepend="," property="cust_card" > cust_card </isNotNull>
+	      <isNotNull prepend="," property="province_id" > province_id </isNotNull>
+	      <isNotNull prepend="," property="city_id" > city_id </isNotNull>
+	      <isNotNull prepend="," property="car_price" > car_price </isNotNull>
+	      <isNotNull prepend="," property="car_type" > car_type </isNotNull>
+	      <isNotNull prepend="," property="car_type_son" > car_type_son </isNotNull>
+	      <isNotNull prepend="," property="car_type_name" > car_type_name </isNotNull>
+	      <isNotNull prepend="," property="order_state" > order_state </isNotNull>
+	      <isNotNull prepend="," property="expert_id" > expert_id </isNotNull>
+	      <isNotNull prepend="," property="create_time" > create_time </isNotNull>
+	      <isNotNull prepend="," property="update_time" > update_time </isNotNull>
+	      )
+	    </dynamic>
+		values
+		<dynamic prepend="(" >
+	      <isNotNull prepend="," property="order_id" > #order_id# </isNotNull>
+	      <isNotNull prepend="," property="cust_name" > #cust_name# </isNotNull>
+	      <isNotNull prepend="," property="cust_phone" > #cust_phone# </isNotNull>
+	      <isNotNull prepend="," property="cust_sex" > #cust_sex# </isNotNull>
+	      <isNotNull prepend="," property="cust_card" > #cust_card# </isNotNull>
+	      <isNotNull prepend="," property="province_id" > #province_id# </isNotNull>
+	      <isNotNull prepend="," property="city_id" > #city_id# </isNotNull>
+	      <isNotNull prepend="," property="car_price" > #car_price# </isNotNull>
+	      <isNotNull prepend="," property="car_type" > #car_type# </isNotNull>
+	      <isNotNull prepend="," property="car_type_son" > #car_type_son# </isNotNull>
+	      <isNotNull prepend="," property="car_type_name" > #car_type_name# </isNotNull>
+	      <isNotNull prepend="," property="order_state" > #order_state# </isNotNull>
+	      <isNotNull prepend="," property="expert_id" > #expert_id# </isNotNull>
+	      <isNotNull prepend="," property="create_time" > #create_time# </isNotNull>
+	      <isNotNull prepend="," property="update_time" > #update_time# </isNotNull>
+	      )
+	    </dynamic>
+	</insert>
+	
+	<!-- 主键查询 -->
+	<select id="selectByPrimaryKey" resultClass="orderInfo" parameterClass="orderInfo">
+		 SELECT 
+		 <include refid="orderInfo_Column_List"/>
+         FROM order_info  
+         WHERE order_id = #order_id#
+	</select>
+	
+	<!-- 列表查询 -->
+	<select id="selectByExample" resultMap="orderInfoMap" parameterClass="orderInfo">
+		 SELECT 
+		 <include refid="orderInfo_Column_List"/>
+         FROM order_info  
+         <include refid="orderInfoCondition" />
+         ORDER BY update_time desc
+	</select>
+	
+	<!-- 主键更新 -->
+	<update id="updateByPrimaryKeySelective" parameterClass="orderInfo">
+		UPDATE order_info 
+		<dynamic prepend="set">
+	      	<isNotNull prepend="," property="order_id" > order_id = #order_id# </isNotNull>
+	      	<isNotNull prepend="," property="cust_name" > cust_name = #cust_name# </isNotNull>
+	      	<isNotNull prepend="," property="cust_phone" > cust_phone = #cust_phone# </isNotNull>
+	      	<isNotNull prepend="," property="cust_sex" > cust_sex = #cust_sex# </isNotNull>
+	      	<isNotNull prepend="," property="cust_card" > cust_card = #cust_card# </isNotNull>
+	      	<isNotNull prepend="," property="province_id" > province_id = #province_id# </isNotNull>
+	      	<isNotNull prepend="," property="city_id" > city_id = #city_id# </isNotNull>
+	      	<isNotNull prepend="," property="car_price" > car_price = #car_price# </isNotNull>
+	      	<isNotNull prepend="," property="car_type" > car_type = #car_type# </isNotNull>
+	      	<isNotNull prepend="," property="car_type_son" > car_type_son = #car_type_son# </isNotNull>
+	      	<isNotNull prepend="," property="car_type_name" > car_type_name = #car_type_name# </isNotNull>
+	      	<isNotNull prepend="," property="order_state" > order_state = #order_state# </isNotNull>
+	      	<isNotNull prepend="," property="expert_id" > expert_id = #expert_id# </isNotNull>
+	      	<isNotNull prepend="," property="create_time" > create_time = #create_time# </isNotNull>
+	      	<isNotNull prepend="," property="update_time" > update_time = #update_time# </isNotNull>
+		</dynamic>
+		WHERE order_id = #order_id#
+	</update>
+	
+	<!-- 数量查询 -->
+	<select id="countByExample" resultClass="int" parameterClass="orderInfo">
+		SELECT count(order_id) FROM order_info 
+        <include refid="orderInfoCondition" />
+	</select>
+	
+	<!-- 删除 -->
+	<delete id="deleteByExample" parameterClass="orderInfo">
+		DELETE FROM order_info 
+        <include refid="orderInfoCondition" />
+	</delete>
+</sqlMap>

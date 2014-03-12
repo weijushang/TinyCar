@@ -1,0 +1,118 @@
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!--常见问题表mapper 对应表：faq_info-->
+<sqlMap namespace="com.car.domain.FaqInfo">
+
+	<!-- Use type aliases to avoid typing the full classname every time. -->
+	<typeAlias alias="faqInfo" type="com.car.domain.FaqInfo" />
+	
+	<resultMap id="faqInfoMap" class="com.car.domain.FaqInfo">
+		<result column="faq_id" jdbcType="number" property="faq_id"/>
+		<result column="type_id" jdbcType="number" property="type_id"/>
+		<result column="type_name" jdbcType="VARCHAR" property="type_name"/>
+		<result column="faq_request" jdbcType="VARCHAR" property="faq_request"/>
+		<result column="faq_answer" jdbcType="BLOB" property="faq_answer"/>
+		<result column="faq_seq" jdbcType="int" property="faq_seq"/>
+		<result column="create_time" jdbcType="VARCHAR" property="create_time"/>
+		<result column="update_time" jdbcType="VARCHAR" property="update_time"/>
+	</resultMap>
+	<sql id="faqInfo_Column_List">
+		f.faq_id, f.type_id, t.type_name, f.faq_request, f.faq_answer, 
+		f.faq_seq, f.create_time, f.update_time
+	</sql>
+	<sql id="faqInfoCondition">
+        <dynamic prepend="where">
+            <isNotEmpty prepend="and" property="faq_id">
+               f.faq_id  = #faq_id#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="type_id">
+               f.type_id  = #type_id#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="faq_request">
+               f.faq_request like '%$faq_request$%'
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="faq_answer">
+               f.faq_answer like '%$faq_answer$%'
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="search_word">
+            	(n.faq_request like '%$search_word$%' or n.faq_answer like '%$search_word$%')
+            </isNotEmpty>
+        </dynamic>        
+    </sql>
+	<!-- 插入数据 -->
+	<insert id="insertSelective" parameterClass="faqInfo">
+		insert into faq_info
+		<dynamic prepend="(" >
+	      <isNotNull prepend="," property="faq_id" > faq_id </isNotNull>
+	      <isNotNull prepend="," property="type_id" > type_id </isNotNull>
+	      <isNotNull prepend="," property="faq_request" > faq_request </isNotNull>
+	      <isNotNull prepend="," property="faq_answer" > faq_answer </isNotNull>
+	      <isNotNull prepend="," property="faq_seq" > faq_seq </isNotNull>
+	      <isNotNull prepend="," property="create_time" > create_time </isNotNull>
+	      <isNotNull prepend="," property="update_time" > update_time </isNotNull>
+	      )
+	    </dynamic>
+		values
+		<dynamic prepend="(" >
+	      <isNotNull prepend="," property="faq_id" > #faq_id# </isNotNull>
+	      <isNotNull prepend="," property="type_id" > #type_id# </isNotNull>
+	      <isNotNull prepend="," property="faq_request" > #faq_request# </isNotNull>
+	      <isNotNull prepend="," property="faq_answer" > #faq_answer# </isNotNull>
+	      <isNotNull prepend="," property="faq_seq" > #faq_seq# </isNotNull>
+	      <isNotNull prepend="," property="create_time" > #create_time# </isNotNull>
+	      <isNotNull prepend="," property="update_time" > #update_time# </isNotNull>
+	      )
+	    </dynamic>
+	</insert>
+	
+	<!-- 主键查询 -->
+	<select id="selectByPrimaryKey" resultClass="faqInfo" parameterClass="faqInfo">
+		 SELECT 
+		 <include refid="faqInfo_Column_List"/>
+         FROM faq_info f left join type_info t on f.type_id=t.type_id  
+         WHERE f.faq_id = #faq_id#
+	</select>
+	
+	<!-- 列表查询 -->
+	<select id="selectByExample" resultMap="faqInfoMap" parameterClass="faqInfo">
+		 SELECT 
+		 <include refid="faqInfo_Column_List"/>
+         FROM faq_info f left join type_info t on f.type_id=t.type_id  
+         <include refid="faqInfoCondition" />
+         ORDER BY f.faq_seq asc
+	</select>
+	
+	<!-- 主键更新 -->
+	<update id="updateByPrimaryKeySelective" parameterClass="faqInfo">
+		UPDATE faq_info 
+		<dynamic prepend="set">
+	      	<isNotNull prepend="," property="faq_id" > faq_id = #faq_id# </isNotNull>
+	      	<isNotNull prepend="," property="type_id" > type_id = #type_id# </isNotNull>
+	      	<isNotNull prepend="," property="faq_request" > faq_request = #faq_request# </isNotNull>
+	      	<isNotNull prepend="," property="faq_answer" > faq_answer = #faq_answer# </isNotNull>
+	      	<isNotNull prepend="," property="faq_seq" > faq_seq = #faq_seq# </isNotNull>
+	      	<isNotNull prepend="," property="create_time" > create_time = #create_time# </isNotNull>
+	      	<isNotNull prepend="," property="update_time" > update_time = #update_time# </isNotNull>
+		</dynamic>
+		WHERE faq_id = #faq_id#
+	</update>
+	
+	<!-- 数量查询 -->
+	<select id="countByExample" resultClass="int" parameterClass="faqInfo">
+		SELECT count(f.faq_id) FROM faq_info f left join type_info t on f.type_id=t.type_id
+        <include refid="faqInfoCondition" />
+	</select>
+	
+	<!-- 删除 -->
+	<delete id="deleteByExample" parameterClass="faqInfo">
+		DELETE FROM faq_info 
+       	<dynamic prepend="where">
+            <isNotEmpty prepend="and" property="faq_id">
+               faq_id  = #faq_id#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="type_id">
+               type_id  = #type_id#
+            </isNotEmpty>
+        </dynamic>  
+	</delete>
+</sqlMap>

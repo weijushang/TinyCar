@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	default-autowire="byName">
+	
+	<!-- 描述信息 -->
+	<description>spring-service-bean</description>
+	
+	<!-- 用户信息service-bean -->
+	<bean id="userInfoService" class="com.car.service.impl.UserInfoService"></bean>
+	<!-- 新闻信息service-bean -->
+	<bean id="newsInfoService" class="com.car.service.impl.NewsInfoService"></bean>
+	<!-- 保险信息service-bean -->
+	<bean id="insureInfoService" class="com.car.service.impl.InsureInfoService"></bean>
+	<!-- 预约信息service-bean -->
+	<bean id="orderInfoService" class="com.car.service.impl.OrderInfoService"></bean>
+	<!-- 优惠信息service-bean -->
+	<bean id="favorableInfoService" class="com.car.service.impl.FavorableInfoService"></bean>
+	<!-- 文件信息service-bean -->
+	<bean id="fileInfoService" class="com.car.service.impl.FileInfoService"></bean>
+	<!-- 产品信息service-bean -->
+	<bean id="productInfoService" class="com.car.service.impl.ProductInfoService"></bean>
+	<!-- 常见问题service-bean -->
+	<bean id="faqInfoService" class="com.car.service.impl.FaqInfoService"></bean>
+	<!-- 优惠专家service-bean -->
+	<bean id="favorExpertInfoService" class="com.car.service.impl.FavorExpertInfoService"></bean>
+	<!-- 贷款专家service-bean -->
+	<bean id="creditExpertInfoService" class="com.car.service.impl.CreditExpertInfoService"></bean>
+	<!-- 车品牌service-bean -->
+	<bean id="carTypeService" class="com.car.service.impl.CarTypeService"></bean>
+	<!-- 结清预约service-bean -->
+	<bean id="settleInfoService" class="com.car.service.impl.SettleInfoService"></bean>
+	<!-- 结清预约service-bean -->
+	<bean id="typeInfoService" class="com.car.service.impl.TypeInfoService"></bean>
+	
+</beans>

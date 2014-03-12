@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	default-autowire="byName">
+
+	<description>spring-dao-bean</description>
+	
+	<!-- 用户信息dao-bean -->
+	<bean id="userInfoDAO" class="com.car.dao.impl.UserInfoDAO">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<!-- 新闻信息dao-bean -->
+	<bean id="newsInfoDAO" class="com.car.dao.impl.NewsInfoDAO">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<!-- 保险信息dao-bean -->
+	<bean id="insureInfoDAO" class="com.car.dao.impl.InsureInfoDAO">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<!-- 预约信息dao-bean -->
+	<bean id="orderInfoDAO" class="com.car.dao.impl.OrderInfoDAO">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<!-- 优惠信息dao-bean -->
+	<bean id="favorableInfoDAO" class="com.car.dao.impl.FavorableInfoDAO">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<!-- 文件信息dao-bean -->
+	<bean id="fileInfoDAO" class="com.car.dao.impl.FileInfoDAO">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<!-- 产品信息dao-bean -->
+	<bean id="productInfoDAO" class="com.car.dao.impl.ProductInfoDAO">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<!-- 常见问题dao-bean -->
+	<bean id="faqInfoDAO" class="com.car.dao.impl.FaqInfoDAO">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<!-- 优惠专家dao-bean -->
+	<bean id="favorExpertInfoDAO" class="com.car.dao.impl.FavorExpertInfoDAO">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<!-- 贷款专家dao-bean -->
+	<bean id="creditExpertInfoDAO" class="com.car.dao.impl.CreditExpertInfoDAO">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<!-- 结清预约dao-bean -->
+	<bean id="settleInfoDAO" class="com.car.dao.impl.SettleInfoDAO">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<!-- 类别dao-bean -->
+	<bean id="typeInfoDAO" class="com.car.dao.impl.TypeInfoDAO">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+</beans>

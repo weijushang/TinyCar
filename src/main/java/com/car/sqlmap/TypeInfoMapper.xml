@@ -1,0 +1,99 @@
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!--类型表mapper 对应表：type_info-->
+<sqlMap namespace="com.car.domain.TypeInfo">
+
+	<!-- Use type aliases to avoid typing the full classname every time. -->
+	<typeAlias alias="typeInfo" type="com.car.domain.TypeInfo" />
+	
+	<resultMap id="typeInfoMap" class="com.car.domain.TypeInfo">
+		<result column="type_id" jdbcType="number" property="type_id"/>
+		<result column="type_name" jdbcType="VARCHAR" property="type_name"/>
+		<result column="type_classify" jdbcType="VARCHAR" property="type_classify"/>
+		<result column="type_remark" jdbcType="VARCHAR" property="type_remark"/>
+		<result column="create_time" jdbcType="VARCHAR" property="create_time"/>
+		<result column="update_time" jdbcType="VARCHAR" property="update_time"/>
+	</resultMap>
+	<sql id="typeInfo_Column_List">
+		type_id, type_name, type_classify, type_remark, create_time, update_time
+	</sql>
+	<sql id="typeInfoCondition">
+        <dynamic prepend="where">
+            <isNotEmpty prepend="and" property="type_id">
+               type_id  = #type_id#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="type_classify">
+               type_classify  = #type_classify#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="type_name">
+               type_name like '%$type_name$%'
+            </isNotEmpty>
+        </dynamic>        
+    </sql>
+	<!-- 插入数据 -->
+	<insert id="insertSelective" parameterClass="typeInfo">
+		insert into type_info
+		<dynamic prepend="(" >
+	      <isNotNull prepend="," property="type_id" > type_id </isNotNull>
+	      <isNotNull prepend="," property="type_name" > type_name </isNotNull>
+	      <isNotNull prepend="," property="type_classify" > type_classify </isNotNull>
+	      <isNotNull prepend="," property="type_remark" > type_remark </isNotNull>
+	      <isNotNull prepend="," property="create_time" > create_time </isNotNull>
+	      <isNotNull prepend="," property="update_time" > update_time </isNotNull>
+	      )
+	    </dynamic>
+		values
+		<dynamic prepend="(" >
+	      <isNotNull prepend="," property="type_id" > #type_id# </isNotNull>
+	      <isNotNull prepend="," property="type_name" > #type_name# </isNotNull>
+	      <isNotNull prepend="," property="type_classify" > #type_classify# </isNotNull>
+	      <isNotNull prepend="," property="type_remark" > #type_remark# </isNotNull>
+	      <isNotNull prepend="," property="create_time" > #create_time# </isNotNull>
+	      <isNotNull prepend="," property="update_time" > #update_time# </isNotNull>
+	      )
+	    </dynamic>
+	</insert>
+	
+	<!-- 主键查询 -->
+	<select id="selectByPrimaryKey" resultClass="typeInfo" parameterClass="typeInfo">
+		 SELECT 
+		 <include refid="typeInfo_Column_List"/>
+         FROM type_info  
+         WHERE type_id = #type_id#
+	</select>
+	
+	<!-- 列表查询 -->
+	<select id="selectByExample" resultMap="typeInfoMap" parameterClass="typeInfo">
+		 SELECT 
+		 <include refid="typeInfo_Column_List"/>
+         FROM type_info  
+         <include refid="typeInfoCondition" />
+         ORDER BY update_time desc
+	</select>
+	
+	<!-- 主键更新 -->
+	<update id="updateByPrimaryKeySelective" parameterClass="typeInfo">
+		UPDATE type_info 
+		<dynamic prepend="set">
+	      	<isNotNull prepend="," property="type_id" > type_id = #type_id# </isNotNull>
+	      	<isNotNull prepend="," property="type_name" > type_name = #type_name# </isNotNull>
+	      	<isNotNull prepend="," property="type_classify" > type_classify = #type_classify# </isNotNull>
+	      	<isNotNull prepend="," property="type_remark" > update_time = #type_remark# </isNotNull>
+	      	<isNotNull prepend="," property="create_time" > create_time = #create_time# </isNotNull>
+	      	<isNotNull prepend="," property="update_time" > update_time = #update_time# </isNotNull>
+		</dynamic>
+		WHERE type_id = #type_id#
+	</update>
+	
+	<!-- 数量查询 -->
+	<select id="countByExample" resultClass="int" parameterClass="typeInfo">
+		SELECT count(type_id) FROM type_info 
+        <include refid="typeInfoCondition" />
+	</select>
+	
+	<!-- 删除 -->
+	<delete id="deleteByExample" parameterClass="typeInfo">
+		DELETE FROM type_info 
+        <include refid="typeInfoCondition" />
+	</delete>
+</sqlMap>

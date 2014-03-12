@@ -1,0 +1,127 @@
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"     
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!--文件信息表mapper 对应表：file_info-->
+<sqlMap namespace="com.car.domain.FileInfo">
+
+	<!-- Use type aliases to avoid typing the full classname every time. -->
+	<typeAlias alias="fileInfo" type="com.car.domain.FileInfo" />
+	
+	<resultMap id="fileInfoMap" class="com.car.domain.FileInfo">
+		<result column="file_id" jdbcType="number" property="file_id"/>
+		<result column="parent_id" jdbcType="number" property="parent_id"/>
+		<result column="file_type" jdbcType="VARCHAR" property="file_type"/>
+		<result column="file_name" jdbcType="VARCHAR" property="file_name"/>
+		<result column="file_path" jdbcType="VARCHAR" property="file_path"/>
+		<result column="file_suffix" jdbcType="VARCHAR" property="file_suffix"/>
+		<result column="file_ori_name" jdbcType="VARCHAR" property="file_ori_name"/>
+		<result column="file_seq" jdbcType="int" property="file_seq"/>
+		<result column="file_alise" jdbcType="VARCHAR" property="file_alise"/>
+		<result column="outer_url" jdbcType="VARCHAR" property="outer_url"/>
+		<result column="create_time" jdbcType="VARCHAR" property="create_time"/>
+		<result column="update_time" jdbcType="VARCHAR" property="update_time"/>
+	</resultMap>
+	<sql id="fileInfo_Column_List">
+		file_id, parent_id, file_type, file_name, file_path, file_suffix, file_ori_name, 
+		file_seq, file_alise, outer_url, create_time, update_time
+	</sql>
+	<sql id="fileInfoCondition">
+        <dynamic prepend="where">
+            <isNotEmpty prepend="and" property="file_id">
+               file_id  = #file_id#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="parent_id">
+               parent_id  = #parent_id#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="file_type">
+               file_type  = #file_type#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="file_ori_name">
+            	file_ori_name like '%$file_ori_name$%'
+            </isNotEmpty>
+        </dynamic>        
+    </sql>
+	<!-- 插入数据 -->
+	<insert id="insertSelective" parameterClass="fileInfo">
+		insert into file_info
+		<dynamic prepend="(" >
+	      <isNotNull prepend="," property="file_id" > file_id </isNotNull>
+	      <isNotNull prepend="," property="parent_id" > parent_id </isNotNull>
+	      <isNotNull prepend="," property="file_type" > file_type </isNotNull>
+	      <isNotNull prepend="," property="file_name" > file_name </isNotNull>
+	      <isNotNull prepend="," property="file_path" > file_path </isNotNull>
+	      <isNotNull prepend="," property="file_suffix" > file_suffix </isNotNull>
+	      <isNotNull prepend="," property="file_ori_name" > file_ori_name </isNotNull>
+	      <isNotNull prepend="," property="file_seq" > file_seq </isNotNull>
+	      <isNotNull prepend="," property="file_alise" > file_alise </isNotNull>
+	      <isNotNull prepend="," property="outer_url" > outer_url </isNotNull>
+	      <isNotNull prepend="," property="create_time" > create_time </isNotNull>
+	      <isNotNull prepend="," property="update_time" > update_time </isNotNull>
+	      )
+	    </dynamic>
+		values
+		<dynamic prepend="(" >
+	      <isNotNull prepend="," property="file_id" > #file_id# </isNotNull>
+	      <isNotNull prepend="," property="parent_id" > #parent_id# </isNotNull>
+	      <isNotNull prepend="," property="file_type" > #file_type# </isNotNull>
+	      <isNotNull prepend="," property="file_name" > #file_name# </isNotNull>
+	      <isNotNull prepend="," property="file_path" > #file_path# </isNotNull>
+	      <isNotNull prepend="," property="file_suffix" > #file_suffix# </isNotNull>
+	      <isNotNull prepend="," property="file_ori_name" > #file_ori_name# </isNotNull>
+	      <isNotNull prepend="," property="file_seq" > #file_seq# </isNotNull>
+	      <isNotNull prepend="," property="file_alise" > #file_alise# </isNotNull>
+	      <isNotNull prepend="," property="outer_url" > #outer_url# </isNotNull>
+	      <isNotNull prepend="," property="create_time" > #create_time# </isNotNull>
+	      <isNotNull prepend="," property="update_time" > #update_time# </isNotNull>
+	      )
+	    </dynamic>
+	</insert>
+	
+	<!-- 主键查询 -->
+	<select id="selectByPrimaryKey" resultClass="fileInfo" parameterClass="fileInfo">
+		 SELECT 
+		 <include refid="fileInfo_Column_List"/>
+         FROM file_info  
+         WHERE file_id = #file_id#
+	</select>
+	
+	<!-- 列表查询 -->
+	<select id="selectByExample" resultMap="fileInfoMap" parameterClass="fileInfo">
+		 SELECT 
+		 <include refid="fileInfo_Column_List"/>
+         FROM file_info  
+         <include refid="fileInfoCondition" />
+         ORDER BY update_time desc
+	</select>
+	
+	<!-- 主键更新 -->
+	<update id="updateByPrimaryKeySelective" parameterClass="fileInfo">
+		UPDATE file_info 
+		<dynamic prepend="set">
+	      	<isNotNull prepend="," property="file_id" > file_id = #file_id# </isNotNull>
+	      	<isNotNull prepend="," property="parent_id" > parent_id = #parent_id# </isNotNull>
+	      	<isNotNull prepend="," property="file_type" > file_type = #file_type# </isNotNull>
+	      	<isNotNull prepend="," property="file_name" > file_name = #file_name# </isNotNull>
+	      	<isNotNull prepend="," property="file_path" > file_path = #file_path# </isNotNull>
+	      	<isNotNull prepend="," property="file_suffix" > file_suffix = #file_suffix# </isNotNull>
+	      	<isNotNull prepend="," property="file_ori_name" > file_ori_name = #file_ori_name# </isNotNull>
+	      	<isNotNull prepend="," property="file_seq" > file_seq = #file_seq# </isNotNull>
+	      	<isNotNull prepend="," property="file_alise" > file_alise = #file_alise# </isNotNull>
+	      	<isNotNull prepend="," property="outer_url" > outer_url = #outer_url# </isNotNull>
+	      	<isNotNull prepend="," property="create_time" > create_time = #create_time# </isNotNull>
+	      	<isNotNull prepend="," property="update_time" > update_time = #update_time# </isNotNull>
+		</dynamic>
+		WHERE file_id = #file_id#
+	</update>
+	
+	<!-- 数量查询 -->
+	<select id="countByExample" resultClass="int" parameterClass="fileInfo">
+		SELECT count(file_id) FROM file_info 
+        <include refid="fileInfoCondition" />
+	</select>
+	
+	<!-- 删除 -->
+	<delete id="deleteByExample" parameterClass="fileInfo">
+		DELETE FROM file_info 
+        <include refid="fileInfoCondition" />
+	</delete>
+</sqlMap>
