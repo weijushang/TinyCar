@@ -37,6 +37,7 @@
     <div class="container" style="padding-top:30px;">
       	<form action="" method="POST" id="thisForm" name="thisForm" class="form-horizontal tasi-form">
       	<input type="hidden" id="favor_id" name="favor_id" value="${favor_id}"/>
+      	<input type="hidden" id="car_type_name" name="car_type_name"/>
 		<div class="row">
   			<div class="col-sm-12">
   				<input type="text" style="width:100%;" class="form-control" id="cust_name" name="cust_name" placeholder="输入客户姓名"/>
@@ -56,7 +57,7 @@
   		</div>
   		<div class="row">
   			<div class="col-sm-12" style="padding-top:10px;">
-				<select style="width:100%;" class="form-control" id="car_type" name="car_type">
+				<select style="width:100%;" class="form-control" id="car_type" name="car_type" onchange="setTypeName(this.value)">
 					<option value="">选择品牌</option>
 					<c:forEach items="${car_types}" varStatus="status" var="item" >
 					<option value="${item.id}">${item.value}</option>
@@ -95,32 +96,32 @@
   				</label>
   			</div>
   		</div>
-		<div class="col-sm-12" id="favor_expert_info" name="favor_expert_info">
+		<div id="favor_expert_info" name="favor_expert_info">
   			<div class="row">
 	  			<div class="col-sm-12" style="padding-top:10px;">
-	  				<input type="text" style="width:100%;" class="form-control" id="name" name="name" placeholder="推荐人姓名"/>
+	  				<input type="text" style="width:100%;" class="form-control" readonly id="name" name="name" placeholder="推荐人姓名"/>
 	  			</div>
 	  		</div>
 	  		<div class="row">
 	  			<div class="col-sm-12" style="padding-top:10px;">
-	  				<input type="text" style="width:100%;" class="form-control" id="phone" name="phone" placeholder="推荐人手机号码"/>
+	  				<input type="text" style="width:100%;" class="form-control" readonly id="phone" name="phone" placeholder="推荐人手机号码"/>
 	  			</div>
 	  		</div>
 	  		<div class="row">
 	  			<div class="col-sm-12" style="padding-top:10px;">
-	  				<input type="text" style="width:100%;" class="form-control" id="presentee_name" name="presentee_name" placeholder="被推荐人姓名"/>
+	  				<input type="text" style="width:100%;" class="form-control" readonly id="presentee_name" name="presentee_name" placeholder="被推荐人姓名"/>
 	  			</div>
 	  		</div>
 	  		<div class="row">
 	  			<div class="col-sm-12" style="padding-top:10px;">
-	  				<input type="text" style="width:100%;" class="form-control" id="presentee_phone" name="presentee_phone" placeholder="被推荐人手机号码"/>
+	  				<input type="text" style="width:100%;" class="form-control" readonly id="presentee_phone" name="presentee_phone" placeholder="被推荐人手机号码"/>
 	  			</div>
 	  		</div>
   		</div>
   							
   		<div class="row">
    			<div class="col-sm-12" style="padding-top:10px;">
-	   			<button style="width:100%;" type="button" onclick="saveObj('<%=request.getContextPath()%>/car/order_save.htm', 'thisForm', 'error_mgs');" class="btn btn-success">确认提交</button>
+	   			<button style="width:100%;" type="button" onclick="saveOrder('<%=request.getContextPath()%>/car/order_save.htm', 'thisForm');" class="btn btn-success">确认提交</button>
    			</div>
    		</div>
    		</br></br>
@@ -133,8 +134,7 @@
     <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/bh-common.js"></script>
 	<script type="text/javascript">
-	//初始化品牌和车系
-	setCarType(document.getElementById('car_type').value, '');
+	
 	function setTypeName(val){
 		document.getElementById('car_type_name').value=val;
 	}
@@ -154,15 +154,17 @@
 	  		        success: function(data) {
 	  		        	if(!data.success){
 	  		        		document.getElementById("favor_expert").checked = false;
-	  		        		document.getElementById("error_mgs").innerHTML=data.msg;
+	  		        		alert(data.msg);
 	  		        	}else{
-		  		  			document.getElementById("error_mgs").innerHTML="";
 		  		  			document.getElementById("favor_expert_info").innerHTML=data.msg;
 	  		        	}
 	  		        }
 	  		    });
 	  		}else{
-	  			document.getElementById("favor_expert_info").innerHTML="";
+	  			document.getElementById("favor_expert_info").innerHTML='<div class="row"><div class="col-sm-12" style="padding-top:10px;"><input type="text" style="width:100%;" class="form-control" readonly id="name" name="name" placeholder="推荐人姓名"/></div></div>'
+		  		+'<div class="row"><div class="col-sm-12" style="padding-top:10px;"><input type="text" style="width:100%;" class="form-control" readonly id="phone" name="phone" placeholder="推荐人手机号码"/></div></div>'
+		  		+'<div class="row"><div class="col-sm-12" style="padding-top:10px;"><input type="text" style="width:100%;" class="form-control" readonly id="presentee_name" name="presentee_name" placeholder="被推荐人姓名"/></div></div>'
+		  		+'<div class="row"><div class="col-sm-12" style="padding-top:10px;"><input type="text" style="width:100%;" class="form-control" readonly id="presentee_phone" name="presentee_phone" placeholder="被推荐人手机号码"/></div></div>';
 	  		} 
 	  	});
 	});
@@ -184,6 +186,22 @@
  		  			document.getElementById("error_mgs").innerHTML="";
  		  			document.getElementById("carTypeDiv").innerHTML=data.msg;
 	        	}
+	        }
+	    });
+	}
+	function saveOrder(url, formName){
+		$.ajax({
+	        cache: true,
+	        type: "POST",
+	        url: url,
+	        timeout: 10000,
+	        data:$('#'+formName).serialize(),// 你的formid
+	        async: false,
+	        error: function(request) {
+	            alert("网络异常，请稍后再试");
+	        },
+	        success: function(data) {
+	        	alert(data.msg);
 	        }
 	    });
 	}

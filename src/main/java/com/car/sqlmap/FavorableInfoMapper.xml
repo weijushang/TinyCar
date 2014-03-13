@@ -22,10 +22,11 @@
 		<result column="update_time" jdbcType="VARCHAR" property="update_time"/>
 		<result column="favor_bdate" jdbcType="VARCHAR" property="favor_bdate"/>
 		<result column="favor_edate" jdbcType="VARCHAR" property="favor_edate"/>
+		<result column="favor_state" jdbcType="VARCHAR" property="favor_state"/>
 	</resultMap>
 	<sql id="favorableInfo_Column_List">
 		favor_id, favor_title, favor_intro, favor_detail, favor_counselor, favor_phone, hot_line, file_path, 
-		car_type, car_type_son, car_type_name, create_time, update_time, favor_bdate, favor_edate
+		car_type, car_type_son, car_type_name, create_time, update_time, favor_bdate, favor_edate, favor_state
 	</sql>
 	<sql id="favorableInfoCondition">
         <dynamic prepend="where">
@@ -37,6 +38,9 @@
             </isNotEmpty>
             <isNotEmpty prepend="and" property="car_type">
                car_type  = #car_type#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="favor_state">
+               favor_state  = #favor_state#
             </isNotEmpty>
             <isNotEmpty prepend="and" property="favor_bdate">
                <![CDATA[ favor_bdate >= #favor_bdate# ]]> 
@@ -68,6 +72,7 @@
 	      <isNotNull prepend="," property="update_time" > update_time </isNotNull>
 	      <isNotNull prepend="," property="favor_bdate" > favor_bdate </isNotNull>
 	      <isNotNull prepend="," property="favor_edate" > favor_edate </isNotNull>
+	      <isNotNull prepend="," property="favor_state" > favor_state </isNotNull>
 	      )
 	    </dynamic>
 		values
@@ -87,6 +92,7 @@
 	      <isNotNull prepend="," property="update_time" > #update_time# </isNotNull>
 	      <isNotNull prepend="," property="favor_bdate" > #favor_bdate# </isNotNull>
 	      <isNotNull prepend="," property="favor_edate" > #favor_edate# </isNotNull>
+	      <isNotNull prepend="," property="favor_state" > #favor_state# </isNotNull>
 	      )
 	    </dynamic>
 	</insert>
@@ -127,6 +133,7 @@
 	      	<isNotNull prepend="," property="update_time" > update_time = #update_time# </isNotNull>
 	      	<isNotNull prepend="," property="favor_bdate" > favor_bdate = #favor_bdate# </isNotNull>
 	      	<isNotNull prepend="," property="favor_edate" > favor_edate = #favor_edate# </isNotNull>
+	      	<isNotNull prepend="," property="favor_state" > favor_state = #favor_state# </isNotNull>
 		</dynamic>
 		WHERE favor_id = #favor_id#
 	</update>

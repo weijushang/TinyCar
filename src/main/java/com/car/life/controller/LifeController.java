@@ -2,9 +2,11 @@ package com.car.life.controller;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.car.base.BaseController;
+import com.car.base.Page;
 import com.car.domain.FileInfo;
 import com.car.service.IFileInfoService;
 import com.car.utils.CarException;
@@ -57,6 +60,20 @@ public class LifeController extends BaseController{
 		}
 		request.setAttribute("image_list", image_list);
 		return "/life/life";
+	}
+
+	/**
+	 * 理财试算
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("/car/life/help.htm")
+	public String help(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		log.info("进入理财试算");
+		
+		return "/life/help";
 	}
 	
 	@SuppressWarnings("rawtypes")
@@ -205,4 +222,43 @@ public class LifeController extends BaseController{
 		}
 		response.getWriter().write(err_msg);
 	}
+	
+	
+	/**
+	 * 车生活首页
+	 * @param fileInfo
+	 * @param pageNum
+	 * @param pageSize
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping("/manager/life/list.htm")
+	public String list(FileInfo fileInfo, Integer pageNum, Integer pageSize,
+			HttpServletRequest request, HttpServletResponse response) throws IOException{
+		log.info("进入保险列表");
+		if(pageNum==null){
+			pageNum = Constant.DEFAULT_PAGENUM;
+		}
+		if(pageSize==null){
+			pageSize = Constant.DEFAULT_PAGESIZE; 
+		}
+		Map map = fileInfoService.getPageList(fileInfo, pageNum, pageSize);
+		int count = (Integer) map.get(Constant.MAP_VALUE_COUNT);
+		List<FileInfo> list = null;
+		if(count > 0){
+			list = (List<FileInfo>) map.get(Constant.MAP_VALUE_LIST);
+		}else{
+			list = new ArrayList<FileInfo>();
+		}
+		request.setAttribute("fileInfo", fileInfo);//查询条件
+		request.setAttribute("count", count);//总数
+		request.setAttribute("list", list);//列表
+		request.setAttribute("page", new Page(list, count, pageNum, pageSize, request.getRequestURI()));//分页控件
+	
+		return "/life/life_list";
+	}
+
 }

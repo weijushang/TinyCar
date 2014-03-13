@@ -148,7 +148,7 @@
   						<div style="float:right;z-index:0;padding-right:10px;"><font size="10"><a href="javascript:;" onclick="getIframe('<%=request.getContextPath()%>/manager/user/user_modifypwd.htm');" title="密码修改">密码修改</a></font></div>
   						<div style="float:right;z-index:0;padding-right:10px;"><font size="10">欢迎您：</font><font size="10" color="red"><%=user.getUser_name() %></font></div>
   					</div>
-    				<iframe width="100%" id="mainFrame" name="mainFrame" src="<%-- <%=request.getContextPath()%>/car/contact.htm --%>" frameborder=0 border=0 marginwidth=0 marginheight=0 scrolling="auto" allowtransparency="yes"></iframe>
+    				<iframe width="100%" id="mainFrame" name="mainFrame" src="<%=request.getContextPath()%>/car/contact.htm" frameborder=0 border=0 marginwidth=0 marginheight=0 scrolling="auto" allowtransparency="yes"></iframe>
   				</div>
 			</div>
   		</div>

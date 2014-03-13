@@ -208,3 +208,8 @@ ALTER TABLE `tinycar`.`faq_info` ADD COLUMN `type_id` BIGINT NULL  AFTER `faq_id
 ALTER TABLE `tinycar`.`favorable_info` ADD COLUMN `favor_bdate` VARCHAR(19) NULL COMMENT '优惠开始时间'  AFTER `update_time` , ADD COLUMN `favor_edate` VARCHAR(19) NULL COMMENT '优惠结束时间'  AFTER `favor_bdate` ;
 ALTER TABLE `tinycar`.`order_info` ADD COLUMN `favor_id` BIGINT NULL  AFTER `update_time` ;
 
+ALTER TABLE `tinycar`.`favor_expert_info` 
+DROP INDEX `fav_exp_idx` 
+, ADD UNIQUE INDEX `fav_exp_idx` (`favor_id` ASC, `presentee_name` ASC, `presentee_phone` ASC) ;
+ALTER TABLE `tinycar`.`favorable_info` ADD COLUMN `favor_state` VARCHAR(1) NULL COMMENT '0启用1停用'  AFTER `favor_edate` ;
+

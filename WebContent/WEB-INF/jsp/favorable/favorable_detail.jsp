@@ -47,7 +47,7 @@
         <table border=0 width="100%">
        		<tr>
        			<td>发布时间：${favorableInfo.update_time}</td>
-       			<td align="right"><%-- <button type="button" class="btn btn-primary btn-xs"  onclick="window.location.href='<%=request.getContextPath()%>/car/favorable_expert.htm?favorable_id=${favorableInfo.favor_id}'">优惠专家</button> --%></td>
+       			<td align="right"><button type="button" class="btn btn-primary btn-xs"  onclick="window.location.href='<%=request.getContextPath()%>/car/favorable_expert.htm?favorable_id=${favorableInfo.favor_id}'">优惠专家</button></td>
        		</tr>
        	</table>
        	<p>${favorableInfo.favor_detail_str}</p>
@@ -68,6 +68,10 @@
        			<td>电话：<a href="tel:${favorableInfo.favor_phone}">${favorableInfo.favor_phone}</a></td>
        		</tr>
        	</table>
+       	</br>
+  		<button style="width:100%;padding-bottom:10px;" type="button" onclick="javascript:window.location.href='<%=request.getContextPath()%>/car/order.htm?favorable_id=${favorableInfo.favor_id}'" class="btn btn-success">在线申请</button>
+       	</br>
+       	</br>
       </div>
   	</div> <!-- /container -->
   	

@@ -61,6 +61,7 @@ public class OrderController extends BaseController{
 			HttpServletRequest request, HttpServletResponse response) throws IOException{
 		log.info("进入在线申请首页");
 		request.setAttribute("favor_id", favorable_id);
+		request.setAttribute("car_types", carTypeService.getCarTypeList());//品牌
 		return "/order/order";
 	}
 	
@@ -78,10 +79,29 @@ public class OrderController extends BaseController{
 		boolean bool = true;
 		String message = "申请成功";
 		try {
-			if(StringUtils.isBlank(orderInfo.getCust_name())||StringUtils.isBlank(orderInfo.getCust_phone())||StringUtils.isBlank(orderInfo.getCust_card())||
-					StringUtils.isBlank(orderInfo.getCust_sex())||StringUtils.isBlank(orderInfo.getCar_type_name())||StringUtils.isBlank(orderInfo.getCar_price())||
-					StringUtils.isBlank(orderInfo.getProvince_id())||StringUtils.isBlank(orderInfo.getCity_id())){
-				throw new CarException("10001", "参数不能为空");
+			if(StringUtils.isBlank(orderInfo.getCust_name())){
+				throw new CarException("10001", "客户名称不能为空");
+			}
+			if(StringUtils.isBlank(orderInfo.getCust_phone())){
+				throw new CarException("10001", "客户手机号码不能为空");
+			}
+			if(StringUtils.isBlank(orderInfo.getCust_card())){
+				throw new CarException("10001", "身份证号码不能为空");
+			}
+			if(StringUtils.isBlank(orderInfo.getCust_sex())){
+				throw new CarException("10001", "性别不能为空");
+			}
+			if(StringUtils.isBlank(orderInfo.getCar_type_name())){
+				throw new CarException("10001", "品牌不能为空");
+			}
+			if(StringUtils.isBlank(orderInfo.getCar_price())){
+				throw new CarException("10001", "车价不能为空");
+			}
+			if(StringUtils.isBlank(orderInfo.getProvince_id())){
+				throw new CarException("10001", "省份不能为空");
+			}
+			if(StringUtils.isBlank(orderInfo.getCity_id())){
+				throw new CarException("10001", "城市不能为空");
 			}
 			orderInfo.setOrder_state(Constant.STATE_ORDER_00);//未处理状态
 			orderInfo.setOrder_id(new BigDecimal(Constant.HEADER_ID_PRODUCT_EXPERT+System.currentTimeMillis()));
@@ -118,14 +138,22 @@ public class OrderController extends BaseController{
 		String message = null;
 		try {
 			if(orderInfo.getFavor_id() == null){
-				throw new CarException("10001", "无法获取介绍人信息");
+				throw new CarException("10001", "无法获取优惠信息");
+			}
+			if(StringUtils.isBlank(orderInfo.getCust_name())){
+				throw new CarException("10002", "客户名称不能为空");
+			}
+			if(StringUtils.isBlank(orderInfo.getCust_phone())){
+				throw new CarException("10003", "客户手机号码不能为空");
 			}
 			FavorExpertInfo favorExpertInfo = new FavorExpertInfo();
 			favorExpertInfo.setFavor_id(orderInfo.getFavor_id());
-			favorExpertInfo = favorExpertInfoService.selectByPrimaryKey(favorExpertInfo);
-			if(favorExpertInfo!=null){
+			favorExpertInfo.setPresentee_name(orderInfo.getCust_name());
+			favorExpertInfo.setPresentee_phone(orderInfo.getCust_phone());
+			List<FavorExpertInfo> favorExpertInfos = favorExpertInfoService.selectByExample(favorExpertInfo);
+			if(favorExpertInfos!=null&&favorExpertInfos.size()>0){
 				bool = true;
-				message = getIntroducerMsg(favorExpertInfo);
+				message = getIntroducerMsg(favorExpertInfos.iterator().next());
 			}else{
 				bool = false;
 				message = "对不起，您还没有介绍人！";
@@ -151,19 +179,19 @@ public class OrderController extends BaseController{
 //		strBuff.append("</td></tr></table></div></div>");
 
 		strBuff.append("<div class='row'><div class='col-sm-12' style='padding-top:10px;'>");
-		strBuff.append("<input type='text' style='width:100%;' class='form-control' id='name' name='name' value='"+favorExpertInfo.getCust_name()+"'>");
+		strBuff.append("<input type='text' style='width:100%;' readonly class='form-control' id='name' name='name' value='"+favorExpertInfo.getCust_name()+"'>");
 		strBuff.append("</div></div>");
 		//推荐人号码
-		strBuff.append("<div class='row'><div class='col-sm-12' style='padding-top:10px;");
-		strBuff.append("<input type='text' style='width:100%;' class='form-control' id='phone' name='phone' value='"+favorExpertInfo.getCust_phone()+"'>");
+		strBuff.append("<div class='row'><div class='col-sm-12' style='padding-top:10px;'>");
+		strBuff.append("<input type='text' style='width:100%;' readonly class='form-control' id='phone' name='phone' value='"+favorExpertInfo.getCust_phone()+"'>");
 		strBuff.append("</div></div>");
 		//被推荐人姓名
 		strBuff.append("<div class='row'><div class='col-sm-12' style='padding-top:10px;'>");
-		strBuff.append("<input type='text' style='width:100%;' class='form-control' id='presentee_name' name='presentee_name' value='"+favorExpertInfo.getPresentee_name()+"'>");
-		strBuff.append("</td></tr></table></div></div>");
+		strBuff.append("<input type='text' style='width:100%;' readonly class='form-control' id='presentee_name' name='presentee_name' value='"+favorExpertInfo.getPresentee_name()+"'>");
+		strBuff.append("</div></div>");
 		//被推荐人号码
 		strBuff.append("<div class='row'><div class='col-sm-12' style='padding-top:10px;'>");
-		strBuff.append("<input type='text' style='width:100%;' class='form-control' id='presentee_phone' name='presentee_phone' value='"+favorExpertInfo.getPresentee_phone()+"'>");
+		strBuff.append("<input type='text' style='width:100%;' readonly class='form-control' id='presentee_phone' name='presentee_phone' value='"+favorExpertInfo.getPresentee_phone()+"'>");
 		strBuff.append("</div></div>");
 		return strBuff.toString();
 	}

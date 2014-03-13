@@ -90,6 +90,27 @@ html { overflow: hidden; }
 					   				</table>
 					   			</div>
 					   		</div>
+				   			<div class="row">
+					   			<div class="col-sm-12" style="padding-top:10px;padding-left:0px;padding-right:0px;">
+					   				<table width="100%">
+					   					<tr height="30px">
+					   						<td width="80px" align="right">标题图片上传：</td>
+					   						<td><font color="red">(图片规格建议使用:640*331)</font></td>
+					   					</tr>
+					   					<tr height="30px">
+					   						<td width="80px" align="right">&nbsp;</td>
+					   						<td>
+					   							<div style="width:100%;height:30px;">
+						   							<input type="file" id="image_file" name="image_file" style="float:left;height:30px;">
+						   							<c:if test="${favorableInfo.fileInfo!=null }">
+						   							<div id="fileDiv" name="fileDiv" style="float:left;height:30px;">&nbsp;${favorableInfo.fileInfo.file_ori_name}&nbsp;<a href="javascript:$('#dfform').submit();">删除</a></div>
+					   								</c:if>
+					   							</div>
+					   						</td>
+					   					</tr>
+					   				</table>
+					   			</div>
+					   		</div>
 					   		<div class="row">
 					   			<div class="col-sm-12" style="padding-top:10px;padding-left:0px;padding-right:0px;">
 					   				<table width="100%">
@@ -158,27 +179,6 @@ html { overflow: hidden; }
 					   						<td>
 					   						<input type="hidden" class="form-control" id="favor_detail_str" name="favor_detail_str" style="width:95%;">
 					   						<textarea name="content" style="width:95%;height:300px;visibility:hidden;">${favorableInfo.favor_detail_str}</textarea>
-					   						</td>
-					   					</tr>
-					   				</table>
-					   			</div>
-					   		</div>
-				   			<div class="row">
-					   			<div class="col-sm-12" style="padding-top:10px;padding-left:0px;padding-right:0px;">
-					   				<table width="100%">
-					   					<tr height="30px">
-					   						<td width="80px" align="right">图片上传：</td>
-					   						<td><font color="red">(图片规格建议使用:640*331)</font></td>
-					   					</tr>
-					   					<tr height="30px">
-					   						<td width="80px" align="right">&nbsp;</td>
-					   						<td>
-					   							<div style="width:100%;height:30px;">
-						   							<input type="file" id="image_file" name="image_file" style="float:left;height:30px;">
-						   							<c:if test="${favorableInfo.fileInfo!=null }">
-						   							<div id="fileDiv" name="fileDiv" style="float:left;height:30px;">&nbsp;${favorableInfo.fileInfo.file_ori_name}&nbsp;<a href="javascript:$('#dfform').submit();">删除</a></div>
-					   								</c:if>
-					   							</div>
 					   						</td>
 					   					</tr>
 					   				</table>

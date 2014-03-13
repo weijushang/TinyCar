@@ -23,6 +23,8 @@ public class FavorableInfo {
 	private String car_type_name;
 	//优惠标题
 	private String favor_title;
+	//0启用1停用
+	private String favor_state;
 	//优惠简介
 	private String favor_intro;
 	//优惠详情
@@ -194,5 +196,13 @@ public class FavorableInfo {
 
 	public void setFavor_edate(String favor_edate) {
 		this.favor_edate = favor_edate;
+	}
+
+	public String getFavor_state() {
+		return favor_state;
+	}
+
+	public void setFavor_state(String favor_state) {
+		this.favor_state = favor_state;
 	}
 }
